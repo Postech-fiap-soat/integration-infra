@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soatmsproduction-deploy
+spec:
+  template:
+    metadata:
+      name: soatmsproduction-deploy
+      labels:
+        app: soatmsproduction-deploy
+    spec:
+      containers:
+        - name: soatmspayment
+          image: mateuspanda/ms-production:1
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: soatmsproduction-configmap
+  replicas: 3
+  selector:
+    matchLabels:
+      app: soatmsproduction-deploy

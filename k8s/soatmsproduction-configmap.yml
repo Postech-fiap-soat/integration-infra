@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: soatmsproduction-configmap
+data:
+  ConnectionStrings_MongoConnection: "mongodb://soatuser:soatpassword@mongoproduction:27018"
+  RabbitMqConfig__Host: "rabbitmq"
+  RabbitMqConfig__Port: "5672"
+  RabbitMqConfig__User: "guest"
+  RabbitMqConfig__Password: "guest"
+  RabbitMqConfig__VirtualHost: /
+

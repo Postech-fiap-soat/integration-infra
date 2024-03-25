@@ -6,6 +6,10 @@ kubectl apply -f mongo-configmap.yml
 kubectl apply -f mongo-deploy.yml
 kubectl apply -f mongo.yml
 
+kubectl apply -f mongoproduction-configmap.yml
+kubectl apply -f mongoproduction-deploy.yml
+kubectl apply -f mongoproduction.yml
+
 kubectl apply -f rabbitmq-configmap.yml
 kubectl apply -f rabbitmq-deploy.yml
 kubectl apply -f rabbitmq.yml
@@ -20,3 +24,7 @@ kubectl apply -f soatmspayment.yml
 
 kubectl apply -f soatmsorder-deploy.yml
 kubectl apply -f soatmsorder.yml
+
+kubectl apply -f soatmsproduction-configmap.yml
+kubectl apply -f soatmsproduction-deploy.yml
+kubectl apply -f soatmsproduction.yml

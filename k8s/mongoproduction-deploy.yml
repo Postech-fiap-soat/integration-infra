@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongoproduction-deployment
+spec:
+  template:
+    metadata:
+      name: mongoproduction-deployment
+      labels:
+        app: mongoproduction-deployment
+    spec:
+      containers:
+        - name: mongoproduction-deployment
+          image: mongo
+          ports:
+            - containerPort: 27017
+          envFrom:
+            - configMapRef:
+                name: mongoproduction-configmap
+  selector:
+    matchLabels:
+      app: mongoproduction-deployment
