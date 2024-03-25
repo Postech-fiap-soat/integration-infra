@@ -1,0 +1,49 @@
+name: Continuous Delivery
+on: 
+  push:
+    branches: [ main ]
+jobs:
+  infra_validation:
+    name: Terraform Validation and Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Setup Terraform CLI
+      uses: hashicorp/setup-terraform@v2.0.2
+    - run: terraform -chdir='./k8s-infra' init
+    - run: terraform -chdir='./k8s-infra' plan
+    - run: terraform -chdir='./k8s-infra' apply --auto-approve  
+
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: KUBECTL  
+      uses: azure/setup-kubectl@v3
+    - run: aws sts get-caller-identity
+    - run: aws eks update-kubeconfig --region us-east-1 --name soatfinalcluster
+    - run: kubectl delete -f ./k8s/soatmspayment-configmap.yml
+    - run: kubectl delete -f ./k8s/soatmspayment-deploy.yml
+    - run: kubectl delete -f ./k8s/soatmsorder-deploy.yml
+    - run: kubectl delete -f ./k8s/soatmsproduction-configmap.yml
+    - run: kubectl delete -f ./k8s/soatmsproduction-deploy.yml
+    - run: kubectl delete -f ./k8s/soatmsproduction.yml
+
+    - run: kubectl apply -f ./k8s/soatmspayment-configmap.yml
+    - run: kubectl apply -f ./k8s/soatmspayment-deploy.yml
+    - run: kubectl apply -f ./k8s/soatmsorder-deploy.yml
+    - run: kubectl apply -f ./k8s/soatmsproduction-configmap.yml
+    - run: kubectl apply -f ./k8s/soatmsproduction-deploy.yml
