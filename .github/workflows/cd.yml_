@@ -40,7 +40,6 @@ jobs:
     - run: kubectl delete -f ./k8s/soatmsorder-deploy.yml
     - run: kubectl delete -f ./k8s/soatmsproduction-configmap.yml
     - run: kubectl delete -f ./k8s/soatmsproduction-deploy.yml
-    - run: kubectl delete -f ./k8s/soatmsproduction.yml
 
     - run: kubectl apply -f ./k8s/soatmspayment-configmap.yml
     - run: kubectl apply -f ./k8s/soatmspayment-deploy.yml
