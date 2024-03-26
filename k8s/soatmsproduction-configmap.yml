@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: soatmsproduction-configmap
 data:
-  ConnectionStrings_MongoConnection: "mongodb://soatuser:soatpassword@mongoproduction:27018"
+  ConnectionStrings__MongoConnection: "mongodb://soatuser:soatpassword@mongo:27017/"
   RabbitMqConfig__Host: "rabbitmq"
   RabbitMqConfig__Port: "5672"
   RabbitMqConfig__User: "guest"
